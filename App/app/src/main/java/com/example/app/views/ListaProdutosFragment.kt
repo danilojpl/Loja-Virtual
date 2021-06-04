@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.app.R
 import com.example.app.configs.buildRetrofit
 import com.example.app.configs.buildServiceProduto
 import com.example.app.databinding.CardProdutoBinding
@@ -44,12 +45,12 @@ class ListaProdutosFragment : Fragment() {
                 if (response.isSuccessful) {
                     atualizarListaUI(response.body())
                 } else {
-                    Snackbar.make(binding.container, "Não foi possível carregar os produtos", Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(binding.container, R.string.erro_lista_produtos, Snackbar.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: Call<ListaProdutoType>, t: Throwable) {
-                Snackbar.make(binding.container, "Não foi possível se conectar a internet", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(binding.container, R.string.erro_internet, Snackbar.LENGTH_LONG).show()
             }
         }
 

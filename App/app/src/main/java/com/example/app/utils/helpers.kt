@@ -1,13 +1,12 @@
 package com.example.app.utils
 
-import java.lang.StringBuilder
 import java.text.NumberFormat
 import java.util.*
 
 fun converDoubleToPrice (value: Double): String {
-    val formater = NumberFormat.getCurrencyInstance()
-    formater.setMaximumFractionDigits(2)
-    formater.setCurrency(Currency.getInstance("BRL"))
+    val formatter = NumberFormat.getCurrencyInstance()
+    formatter.currency = Currency.getInstance(Locale.getDefault())
+    formatter.maximumFractionDigits = 2
 
-    return formater.format(value).replace(".", ",")
+    return formatter.format(value).replace(".", ",")
 }

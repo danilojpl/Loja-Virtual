@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Virtual Store</string>
+    <string name="openDrawer">Open Menu</string>
+    <string name="closeDrawer">Close Menu</string>
+    <string name="menu_item_produtos">All Products</string>
+    <string name="erro_internet">Unable to connect to the internet</string>
+    <string name="erro_lista_produtos">Unable to load the products</string>
+</resources>

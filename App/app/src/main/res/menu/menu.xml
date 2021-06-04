@@ -4,7 +4,7 @@
     <group >
         <item
             android:id="@+id/item_produtos"
-            android:title="Todos os Produtos"
+            android:title="@string/menu_item_produtos"
             app:showAsAction="never" />
     </group>
 
