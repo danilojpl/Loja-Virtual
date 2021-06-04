@@ -1,5 +1,6 @@
 package com.example.app.views
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,7 +13,10 @@ import com.example.app.databinding.CardProdutoBinding
 import com.example.app.databinding.FragmentListaProdutosViewBinding
 import com.example.app.models.ProdutoModel
 import com.example.app.types.ListaProdutoType
+import com.example.app.utils.converDoubleToPrice
 import com.google.android.material.card.MaterialCardView
+import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -40,16 +44,17 @@ class ListaProdutosFragment : Fragment() {
                 if (response.isSuccessful) {
                     atualizarListaUI(response.body())
                 } else {
-                    Log.e("TAG1", response.body().toString())
+                    Snackbar.make(binding.container, "Não foi possível carregar os produtos", Snackbar.LENGTH_LONG).show()
                 }
             }
 
             override fun onFailure(call: Call<ListaProdutoType>, t: Throwable) {
-                Log.e("TAG2", t.toString())
+                Snackbar.make(binding.container, "Não foi possível se conectar a internet", Snackbar.LENGTH_LONG).show()
             }
         }
 
         call.enqueue(callback)
+        binding.loading.visibility = View.VISIBLE
     }
 
     fun atualizarListaUI (lista: ListaProdutoType?) {
@@ -57,9 +62,17 @@ class ListaProdutosFragment : Fragment() {
 
         lista?.forEach {
             val cardBinding = CardProdutoBinding.inflate(layoutInflater)
-            cardBinding.nome.text = it.value.nome
+            cardBinding.produtoNome.text = it.value.nome
+            cardBinding.produtoDescricao.text = it.value.descricao
+            cardBinding.produtoPreco.text = converDoubleToPrice(it.value.preco)
+
+            Picasso.get()
+                .load(it.value.imagens[0])
+                .into(cardBinding.produtoImagem)
 
             binding.container.addView(cardBinding.root)
         }
+
+        binding.loading.visibility = View.INVISIBLE
     }
 }

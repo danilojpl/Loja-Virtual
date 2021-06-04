@@ -7,6 +7,15 @@
 
     <!-- TODO: Update blank fragment layout -->
 
+    <ProgressBar
+        android:id="@+id/loading"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="22dp"
+        android:layout_marginTop="-10dp"
+        android:indeterminate="true"
+        android:progressTint="@color/teal_200" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"></LinearLayout>
+            android:padding="8dp"></LinearLayout>
     </ScrollView>
 
 </FrameLayout>
