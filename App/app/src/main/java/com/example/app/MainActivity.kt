@@ -1,12 +1,11 @@
 package com.example.app
 
-import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import com.example.app.databinding.ActivityMainBinding
-import com.example.app.views.ListaProdutosView
+import com.example.app.views.ListaProdutosFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -30,8 +29,7 @@ class MainActivity : AppCompatActivity() {
             binding.drawerLayout.closeDrawers()
 
             if (it.itemId == R.id.item_produtos) {
-                val frag = ListaProdutosView.newInstance("", "")
-                supportFragmentManager.beginTransaction().replace(R.id.fragContainer, frag).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragContainer, ListaProdutosFragment()).commit()
             }
 
             true

@@ -5,6 +5,7 @@ data class ProdutoModel (
     var categoria: String,
     var descricao: String,
     var estoque: Int,
+    var id: String,
     var imagens: List<String>,
     var marca: String,
     var nome: String,

@@ -6,6 +6,7 @@ const produtoFake = (nome, atributos, imagens) => ({
   atributos,
   nome,
   imagens,
+  id: faker.datatype.uuid(),
   descricao: faker.lorem.paragraph(),
   estoque: Math.floor(Math.random() * 20),
   marca: faker.lorem.words(2),
@@ -16,17 +17,19 @@ const produtoFake = (nome, atributos, imagens) => ({
 module.exports = ([
   {
     nome: 'acessórios',
+    id: faker.datatype.uuid(),
     imagem: '',
     produtos: [
       produtoFake('Estojo Harry Potter', { cor: 'preto' }, ['https://images.tcdn.com.br/img/img_prod/723087/necessaire_viagem_hogwarts_ean_7908011747019_7245_4_20201214140607.jpg', 'https://images.tcdn.com.br/img/img_prod/723087/necessaire_viagem_hogwarts_ean_7908011747019_7245_2_20201026120233.jpg']),
       produtoFake('Mousepad Assassins Creed', { largura: '30cm', altura: '15cm' }, ['https://http2.mlstatic.com/D_NQ_NP_796872-MLB45755041039_042021-O.webp', 'https://http2.mlstatic.com/D_NQ_NP_634620-MLB45754935927_042021-O.webp']),
       produtoFake('Bottom Game of Thrones', {}, ['https://photos.enjoei.com.br/button-tyrion-e-game-of-thrones-23298340/1200xN/czM6Ly9waG90b3MuZW5qb2VpLmNvbS5ici9wcm9kdWN0cy8yNzIzNjMvMzcyODdjMmRhZGQ4Yjk1MGI2ODI5YzE0MTM3MmIxYWMuanBn']),
-      produtoFake('Capa para Notebbok Baby Yoad', [{ cor: 'preto' }], ['https://http2.mlstatic.com/D_NQ_NP_653923-MLB44754085985_012021-O.webp'])
+      produtoFake('Capa para Notebbok Baby Yoad', { cor: 'preto' }, ['https://http2.mlstatic.com/D_NQ_NP_653923-MLB44754085985_012021-O.webp'])
     ]
   },
 
   {
     nome: 'action figures',
+    id: faker.datatype.uuid(),
     imagem: '',
     produtos: [
       produtoFake('Thanos', {}, ['https://www.fantoy.com.br/media/catalog/product/cache/3db55c74243ab666fe33f3bb10752784/t/h/thanos-marvel-gallery-diamond-min.jpg']),
@@ -39,6 +42,7 @@ module.exports = ([
   },
   {
     nome: 'decoração',
+    id: faker.datatype.uuid(),
     imagem: '',
     produtos: [
       produtoFake('Luminária Nuvem', { largura: '20cm', altura: '15cm', comprimento: '10cm' }, ['https://cdn.awsli.com.br/1000x1000/1225/1225697/produto/102660733/3f0fdda4d6.jpg']),
@@ -48,6 +52,7 @@ module.exports = ([
   },
   {
     nome: 'jogos',
+    id: faker.datatype.uuid(),
     imagem: '',
     produtos: [
       produtoFake('GTA V', { plataforma: 'Xbox One' }, ['https://www.ecompletocdn.com.br/i/fp/2280/1079347_151_1565637310.jpg']),
@@ -63,6 +68,7 @@ module.exports = ([
   },
   {
     nome: 'livros',
+    id: faker.datatype.uuid(),
     imagem: '',
     produtos: [
       produtoFake('Donnie Darko', {}, ['https://images-na.ssl-images-amazon.com/images/I/51fCQh2Kw4L._AC_SX184_.jpg']),
@@ -74,6 +80,7 @@ module.exports = ([
   },
   {
     nome: 'tecnologia',
+    id: faker.datatype.uuid(),
     imagem: '',
     produtos: [
       produtoFake('Ryzen 5 1600', {}, ['https://images5.kabum.com.br/produtos/fotos/107545/processador-amd-ryzen-5-1600-cache-19mb-3-2ghz-3-6ghz-max-turbo-am4-yd1600bbafbox_1573653284_m.jpg']),
