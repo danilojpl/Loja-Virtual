@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:200675302613:android:cae3a44ff5525989db565c",
         "android_client_info": {
-          "package_name": "br.app.lojavirtual"
+          "package_name": "com.example.app"
         }
       },
       "oauth_client": [

@@ -1,9 +1,9 @@
 package com.example.app
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import com.example.app.databinding.ActivityMainBinding
 import com.example.app.views.ListaProdutosFragment
 
@@ -13,6 +13,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //id categoria
+        var extras = getIntent().getExtras()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -25,11 +28,17 @@ class MainActivity : AppCompatActivity() {
             it.syncState()
         }
 
+        if (extras != null){
+            val fragment = ListaProdutosFragment()
+            fragment.arguments = extras
+            supportFragmentManager.beginTransaction().replace(R.id.fragContainer,fragment).commit()
+        }
+
         binding.navigationView.setNavigationItemSelectedListener {
             binding.drawerLayout.closeDrawers()
 
             if (it.itemId == R.id.item_produtos) {
-                supportFragmentManager.beginTransaction().replace(R.id.fragContainer, ListaProdutosFragment()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragContainer,ListaProdutosFragment()).commit()
             }
 
             true
