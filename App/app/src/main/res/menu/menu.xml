@@ -6,6 +6,9 @@
             android:id="@+id/item_produtos"
             android:title="@string/menu_item_produtos"
             app:showAsAction="never" />
+        <item
+            android:id="@+id/item_sobre"
+            android:title="@string/tela_sobre" />
     </group>
 
 </menu>

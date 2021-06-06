@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.app.databinding.ActivityMainBinding
 import com.example.app.views.ListaProdutosFragment
 import com.example.app.views.ProdutoFragment
+import com.example.app.views.SobreFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -45,6 +46,13 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager
                     .beginTransaction()
                     .replace(R.id.fragContainer, ListaProdutosFragment())
+                    .commit()
+            }
+
+            else if (it.itemId == R.id.item_sobre) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragContainer, SobreFragment())
                     .commit()
             }
 

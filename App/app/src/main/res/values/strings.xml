@@ -12,4 +12,9 @@
     <string name="tela_lista_produtos">Lista de Produtos</string>
     <string name="pesquisar_produto">Digite o nome de um produto ...</string>
     <string name="nao_ha_items">0 items encontrados</string>
+    <string name="tela_sobre">Sobre</string>
+    <string name="autores">Autores</string>
+    <string name="apoio">Apoio</string>
+    <string name="enviar_email">Enviar e-mail</string>
+    <string name="abrir_site">Abrir site</string>
 </resources>

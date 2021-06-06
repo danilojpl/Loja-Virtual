@@ -10,4 +10,9 @@
     <string name="tela_lista_produtos">Products List</string>
     <string name="pesquisar_produto">Type the name of a product ...</string>
     <string name="nao_ha_items">0 itens found</string>
+    <string name="tela_sobre">About</string>
+    <string name="autores">Authors</string>
+    <string name="apoio">Support</string>
+    <string name="enviar_email">Send e-mail</string>
+    <string name="abrir_site">Open site</string>
 </resources>

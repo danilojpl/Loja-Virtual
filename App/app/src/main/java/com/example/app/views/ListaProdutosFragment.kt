@@ -2,7 +2,6 @@ package com.example.app.views
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
@@ -19,7 +18,6 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.net.URLDecoder
 
 class ListaProdutosFragment : Fragment() {
     lateinit var binding: FragmentListaProdutosViewBinding
