@@ -15,4 +15,5 @@
     <string name="apoio">Support</string>
     <string name="enviar_email">Send e-mail</string>
     <string name="abrir_site">Open site</string>
+    <string name="adicionar_carrinho">Add to cart</string>
 </resources>
