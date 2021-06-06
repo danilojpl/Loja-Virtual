@@ -9,6 +9,7 @@ import com.example.app.R
 import com.example.app.configs.buildServiceProduto
 import com.example.app.databinding.CardProdutoBinding
 import com.example.app.databinding.FragmentListaProdutosViewBinding
+import com.example.app.models.ProdutoModel
 import com.example.app.types.ListaProdutoType
 import com.example.app.utils.converDoubleToPrice
 import com.google.android.material.snackbar.Snackbar
@@ -30,7 +31,9 @@ class ListaProdutosFragment : Fragment() {
         val categoria = this.arguments?.getString("categoria")
 
         atualizarProdutos(categoria)
+        activity?.title = "Lista de Produtos"
     }
+
 
     fun atualizarProdutos (categoria: String?) {
         val service = buildServiceProduto()
@@ -54,15 +57,30 @@ class ListaProdutosFragment : Fragment() {
         binding.loading.visibility = View.VISIBLE
     }
 
+    fun abrirDetalhesProduto (produto: ProdutoModel) {
+        val bundle = Bundle()
+        bundle.putParcelable("produto", produto)
+
+        val fragment = ProdutoFragment()
+        fragment.arguments = bundle
+        parentFragmentManager.beginTransaction().replace(R.id.fragContainer,fragment).commit()
+    }
+
     fun atualizarListaUI (lista: ListaProdutoType?, categoria: String?) {
         binding.container.removeAllViews()
 
         lista?.forEach {
             if (it.value.categoria == categoria || categoria == null) {
                 val cardBinding = CardProdutoBinding.inflate(layoutInflater)
-                cardBinding.produtoNome.text = it.value.nome
-                cardBinding.produtoDescricao.text = it.value.descricao
-                cardBinding.produtoPreco.text = converDoubleToPrice(it.value.preco)
+                val produto = it.value
+
+                cardBinding.produtoNome.text = produto.nome
+                cardBinding.produtoDescricao.text = produto.descricao
+                cardBinding.produtoPreco.text = converDoubleToPrice(produto.preco)
+
+                cardBinding.produtoContainer.setOnClickListener {
+                    abrirDetalhesProduto(produto)
+                }
 
                 Picasso.get()
                     .load(it.value.imagens[0])

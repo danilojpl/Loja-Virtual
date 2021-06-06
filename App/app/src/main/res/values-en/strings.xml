@@ -5,4 +5,6 @@
     <string name="menu_item_produtos">All Products</string>
     <string name="erro_internet">Unable to connect to the internet</string>
     <string name="erro_lista_produtos">Unable to load the products</string>
+    <string name="quantidade_em_estoque">in stock</string>
+    <string name="fora_de_estoque">out of stock</string>
 </resources>

@@ -5,4 +5,8 @@
     <string name="menu_item_produtos">Todos os Produtos</string>
     <string name="erro_internet">Erro ao tentar conectar à internet</string>
     <string name="erro_lista_produtos">Não foi possível carregar os produtos</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="quantidade_em_estoque">em estoque</string>
+    <string name="fora_de_estoque">fora de estoque</string>
 </resources>

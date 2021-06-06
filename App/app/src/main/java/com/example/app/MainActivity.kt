@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.app.databinding.ActivityMainBinding
 import com.example.app.views.ListaProdutosFragment
+import com.example.app.views.ProdutoFragment
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -38,7 +39,11 @@ class MainActivity : AppCompatActivity() {
             binding.drawerLayout.closeDrawers()
 
             if (it.itemId == R.id.item_produtos) {
-                supportFragmentManager.beginTransaction().replace(R.id.fragContainer,ListaProdutosFragment()).commit()
+                supportFragmentManager
+                    .beginTransaction()
+                    .add(R.id.fragContainer, ListaProdutosFragment())
+                    .addToBackStack("Lista de Produtos")
+                    .commit()
             }
 
             true
@@ -51,5 +56,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         return false
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.beginTransaction().replace(R.id.fragContainer,ListaProdutosFragment()).commit()
+        } else {
+            super.onBackPressed()
+        }
     }
 }
