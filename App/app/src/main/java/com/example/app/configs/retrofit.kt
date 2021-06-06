@@ -15,4 +15,3 @@ fun buildRetrofit ():Retrofit {
 fun buildServiceProduto (): ProdutoService {
     return buildRetrofit().create(ProdutoService::class.java)
 }
-

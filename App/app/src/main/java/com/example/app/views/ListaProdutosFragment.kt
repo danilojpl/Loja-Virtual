@@ -1,9 +1,11 @@
 package com.example.app.views
 
+import android.app.Activity
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import android.view.inputmethod.InputMethodManager
+import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.example.app.R
 import com.example.app.configs.buildServiceProduto
@@ -17,13 +19,58 @@ import com.squareup.picasso.Picasso
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.URLDecoder
 
 class ListaProdutosFragment : Fragment() {
     lateinit var binding: FragmentListaProdutosViewBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): FrameLayout {
         binding = FragmentListaProdutosViewBinding.inflate(inflater)
+
+        binding.inputNomeProduto.setOnKeyListener { _, key, event ->
+            if (key == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
+                pesquisarProdutos(binding.inputNomeProduto.text.toString())
+
+                val keyboard = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                keyboard.hideSoftInputFromWindow(view?.windowToken, 0)
+
+                true
+            }
+
+            false
+        }
+
+        binding.inputNomeContainer.setEndIconOnClickListener {
+            binding.inputNomeProduto.setText("")
+            atualizarProdutos()
+        }
+
         return binding.root
+    }
+
+    fun pesquisarProdutos (nome: String) {
+        val service = buildServiceProduto()
+        val call = service.filterByName("\"${nome}\"", "\"${nome}\\uf8ff\"")
+
+        val callback = object: Callback<ListaProdutoType> {
+            override fun onResponse(call: Call<ListaProdutoType>, response: Response<ListaProdutoType>) {
+                if (response.isSuccessful) {
+                    atualizarListaUI(response.body(), null)
+                } else {
+                    Snackbar.make(binding.container, R.string.erro_lista_produtos, Snackbar.LENGTH_LONG).show()
+                    binding.loading.visibility = View.INVISIBLE
+                }
+            }
+
+            override fun onFailure(call: Call<ListaProdutoType>, t: Throwable) {
+                Snackbar.make(binding.container, R.string.erro_internet, Snackbar.LENGTH_LONG).show()
+                binding.loading.visibility = View.INVISIBLE
+            }
+        }
+
+        call.enqueue(callback)
+        binding.loading.visibility = View.VISIBLE
+        binding.naoHaItens.visibility = View.INVISIBLE
     }
 
     override fun onResume() {
@@ -31,11 +78,10 @@ class ListaProdutosFragment : Fragment() {
         val categoria = this.arguments?.getString("categoria")
 
         atualizarProdutos(categoria)
-        activity?.title = "Lista de Produtos"
+        activity?.title = getString(R.string.tela_lista_produtos)
     }
 
-
-    fun atualizarProdutos (categoria: String?) {
+    fun atualizarProdutos (categoria: String? = null) {
         val service = buildServiceProduto()
         val call = service.list()
 
@@ -45,16 +91,19 @@ class ListaProdutosFragment : Fragment() {
                     atualizarListaUI(response.body(), categoria)
                 } else {
                     Snackbar.make(binding.container, R.string.erro_lista_produtos, Snackbar.LENGTH_LONG).show()
+                    binding.loading.visibility = View.INVISIBLE
                 }
             }
 
             override fun onFailure(call: Call<ListaProdutoType>, t: Throwable) {
                 Snackbar.make(binding.container, R.string.erro_internet, Snackbar.LENGTH_LONG).show()
+                binding.loading.visibility = View.INVISIBLE
             }
         }
 
         call.enqueue(callback)
         binding.loading.visibility = View.VISIBLE
+        binding.naoHaItens.visibility = View.INVISIBLE
     }
 
     fun abrirDetalhesProduto (produto: ProdutoModel) {
@@ -63,30 +112,34 @@ class ListaProdutosFragment : Fragment() {
 
         val fragment = ProdutoFragment()
         fragment.arguments = bundle
-        parentFragmentManager.beginTransaction().replace(R.id.fragContainer,fragment).commit()
+        parentFragmentManager.beginTransaction().replace(R.id.fragContainer, fragment).commit()
     }
 
-    fun atualizarListaUI (lista: ListaProdutoType?, categoria: String?) {
+    fun atualizarListaUI (lista: ListaProdutoType?, categoria: String? = null) {
         binding.container.removeAllViews()
 
-        lista?.forEach {
-            if (it.value.categoria == categoria || categoria == null) {
-                val cardBinding = CardProdutoBinding.inflate(layoutInflater)
-                val produto = it.value
+        if (lista?.size == 0) {
+            binding.naoHaItens.visibility = View.VISIBLE
+        } else {
+            lista?.forEach {
+                if (it.value.categoria == categoria || categoria == null) {
+                    val cardBinding = CardProdutoBinding.inflate(layoutInflater)
+                    val produto = it.value
 
-                cardBinding.produtoNome.text = produto.nome
-                cardBinding.produtoDescricao.text = produto.descricao
-                cardBinding.produtoPreco.text = converDoubleToPrice(produto.preco)
+                    cardBinding.produtoNome.text = produto.nome
+                    cardBinding.produtoDescricao.text = produto.descricao
+                    cardBinding.produtoPreco.text = converDoubleToPrice(produto.preco)
 
-                cardBinding.produtoContainer.setOnClickListener {
-                    abrirDetalhesProduto(produto)
+                    cardBinding.produtoContainer.setOnClickListener {
+                        abrirDetalhesProduto(produto)
+                    }
+
+                    Picasso.get()
+                        .load(it.value.imagens[0])
+                        .into(cardBinding.produtoImagem)
+
+                    binding.container.addView(cardBinding.root)
                 }
-
-                Picasso.get()
-                    .load(it.value.imagens[0])
-                    .into(cardBinding.produtoImagem)
-
-                binding.container.addView(cardBinding.root)
             }
         }
 

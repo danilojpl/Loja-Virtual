@@ -32,7 +32,10 @@ class MainActivity : AppCompatActivity() {
         if (extras != null){
             val fragment = ListaProdutosFragment()
             fragment.arguments = extras
-            supportFragmentManager.beginTransaction().replace(R.id.fragContainer,fragment).commit()
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragContainer, ListaProdutosFragment())
+                .commit()
         }
 
         binding.navigationView.setNavigationItemSelectedListener {
@@ -41,8 +44,7 @@ class MainActivity : AppCompatActivity() {
             if (it.itemId == R.id.item_produtos) {
                 supportFragmentManager
                     .beginTransaction()
-                    .add(R.id.fragContainer, ListaProdutosFragment())
-                    .addToBackStack("Lista de Produtos")
+                    .replace(R.id.fragContainer, ListaProdutosFragment())
                     .commit()
             }
 
@@ -59,8 +61,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (supportFragmentManager.backStackEntryCount > 0) {
-            supportFragmentManager.beginTransaction().replace(R.id.fragContainer,ListaProdutosFragment()).commit()
+        val currentFrag = supportFragmentManager.findFragmentById(R.id.fragContainer)
+
+        if (currentFrag is ProdutoFragment) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragContainer, ListaProdutosFragment())
+                .commit()
         } else {
             super.onBackPressed()
         }

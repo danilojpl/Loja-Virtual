@@ -9,4 +9,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="quantidade_em_estoque">em estoque</string>
     <string name="fora_de_estoque">fora de estoque</string>
+    <string name="tela_lista_produtos">Lista de Produtos</string>
+    <string name="pesquisar_produto">Digite o nome de um produto ...</string>
+    <string name="nao_ha_items">0 items encontrados</string>
 </resources>

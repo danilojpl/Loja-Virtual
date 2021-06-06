@@ -2,6 +2,7 @@ package com.example.app.views
 
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,12 +22,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class ProdutoFragment : Fragment() {
     lateinit var binding: FragmentProdutoBinding
-    lateinit var activity: MainActivity
 
     fun adicionarAtributo (chave: String, valor: String) {
         val atributoValorBinding = AtributoProdutoBinding.inflate(layoutInflater)
         atributoValorBinding.produtoAtributoChave.text = "${chave}:"
         atributoValorBinding.produtoAtributoValor.text = valor
+
+        binding.produtoContainerAtributos.addView(atributoValorBinding.root)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

@@ -7,4 +7,7 @@
     <string name="erro_lista_produtos">Unable to load the products</string>
     <string name="quantidade_em_estoque">in stock</string>
     <string name="fora_de_estoque">out of stock</string>
+    <string name="tela_lista_produtos">Products List</string>
+    <string name="pesquisar_produto">Type the name of a product ...</string>
+    <string name="nao_ha_items">0 itens found</string>
 </resources>
