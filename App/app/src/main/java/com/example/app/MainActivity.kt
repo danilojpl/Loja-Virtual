@@ -5,6 +5,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.app.databinding.ActivityMainBinding
+import com.example.app.views.CategoriasFragment
 import com.example.app.views.ListaProdutosFragment
 import com.example.app.views.ProdutoFragment
 import com.example.app.views.SobreFragment
@@ -15,9 +16,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //id categoria
-        var extras = getIntent().getExtras()
+        supportFragmentManager.beginTransaction().replace(R.id.fragContainer, CategoriasFragment()).commit()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -28,15 +27,6 @@ class MainActivity : AppCompatActivity() {
         toggle?.let {
             binding.drawerLayout.addDrawerListener(it)
             it.syncState()
-        }
-
-        if (extras != null){
-            val fragment = ListaProdutosFragment()
-            fragment.arguments = extras
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragContainer, ListaProdutosFragment())
-                .commit()
         }
 
         binding.navigationView.setNavigationItemSelectedListener {
