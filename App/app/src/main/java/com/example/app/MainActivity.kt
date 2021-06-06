@@ -2,8 +2,10 @@ package com.example.app
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import com.example.app.configs.buildCarrinhoDB
 import com.example.app.databinding.ActivityMainBinding
 import com.example.app.views.ListaProdutosFragment
 import com.example.app.views.ProdutoFragment
@@ -12,6 +14,24 @@ import com.example.app.views.SobreFragment
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     var toggle: ActionBarDrawerToggle? = null
+
+    fun mostrarEsconderBotaoCarrinho (adicionadoRecente: Boolean = false) {
+        binding.botaoCarrinho.visibility = View.INVISIBLE
+
+        if (adicionadoRecente) {
+            binding.botaoCarrinho.visibility = View.VISIBLE
+        } else {
+            Thread {
+                val produtosCarrinho = buildCarrinhoDB(this).listarTodos()
+
+                runOnUiThread {
+                    if (produtosCarrinho.isNotEmpty()) {
+                        binding.botaoCarrinho.visibility = View.VISIBLE
+                    }
+                }
+            }.start()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +78,8 @@ class MainActivity : AppCompatActivity() {
 
             true
         }
+
+        mostrarEsconderBotaoCarrinho()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
