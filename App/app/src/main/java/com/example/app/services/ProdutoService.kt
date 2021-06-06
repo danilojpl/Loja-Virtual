@@ -14,4 +14,10 @@ interface ProdutoService {
         @Query("startAt") startAt: String,
         @Query("endAt") endAt: String
     ): Call<ListaProdutoType>
+
+    @GET("/produtos.json?auth=7iCXnlTCgJdNKmu2Vtjfx6wNGWe1PyLynyx4vLT4&orderBy=\"id\"")
+    fun findById(
+        @Query("startAt") startAt: String,
+        @Query("endAt") endAt: String
+    ): Call<ListaProdutoType>
 }

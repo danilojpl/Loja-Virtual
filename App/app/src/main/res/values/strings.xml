@@ -18,4 +18,7 @@
     <string name="enviar_email">Enviar e-mail</string>
     <string name="abrir_site">Abrir site</string>
     <string name="adicionar_carrinho">Adicionar ao carrinho</string>
+    <string name="tela_carrinho">Meu Carrinho</string>
+    <string name="carrinho_vazio">Não há items no carrinho</string>
+    <string name="sem_estoque">Não há mais itens em estoque</string>
 </resources>

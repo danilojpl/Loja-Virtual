@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".views.ListaProdutosFragment">
+    android:layout_height="match_parent"
+    tools:context=".views.CarrinhoFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,44 +20,50 @@
             android:indeterminate="true"
             android:progressTint="@color/teal_200" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/input_nome_container"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:endIconMode="clear_text">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_nome_produto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/pesquisar_produto"
-                android:inputType="text" />
-
-        </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
             android:id="@+id/nao_ha_itens"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="8dp"
-            android:layout_weight="1"
             android:fontFamily="@font/montserrat"
-            android:text="@string/nao_ha_items" />
+            android:text="@string/carrinho_vazio" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="-25dp"
+            android:layout_weight="1">
 
             <LinearLayout
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="8dp"></LinearLayout>
+                android:paddingLeft="8dp"
+                android:paddingEnd="8dp"
+                android:paddingRight="8dp"></LinearLayout>
         </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/total_compra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_bold"
+                android:gravity="right"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="8dp"
+                android:text="R$ 1000,00"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>

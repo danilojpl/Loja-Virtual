@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.app.configs.buildCarrinhoDB
 import com.example.app.databinding.ActivityMainBinding
 import com.example.app.views.CategoriasFragment
+import com.example.app.views.CarrinhoFragment
 import com.example.app.views.ListaProdutosFragment
 import com.example.app.views.ProdutoFragment
 import com.example.app.views.SobreFragment
@@ -20,10 +21,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     var toggle: ActionBarDrawerToggle? = null
 
-    fun mostrarEsconderBotaoCarrinho (adicionadoRecente: Boolean = false) {
+    fun mostrarEsconderBotaoCarrinho (adicionadoRecente: Boolean = false, telaCarrinho: Boolean = false) {
         binding.botaoCarrinho.visibility = View.INVISIBLE
 
-        if (adicionadoRecente) {
+        if (telaCarrinho) {
+            binding.botaoCarrinho.visibility = View.INVISIBLE
+        } else if (adicionadoRecente) {
             binding.botaoCarrinho.visibility = View.VISIBLE
         } else {
             Thread {
@@ -74,6 +77,13 @@ class MainActivity : AppCompatActivity() {
                     .commit()
             }
 
+            else if (it.itemId == R.id.item_carrinho) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .replace(R.id.fragContainer, CarrinhoFragment())
+                    .commit()
+            }
+
             true
         }
         val header = binding.navigationView.getHeaderView(0)
@@ -90,6 +100,15 @@ class MainActivity : AppCompatActivity() {
             }
         }
         mostrarEsconderBotaoCarrinho()
+
+        binding.botaoCarrinho.setOnClickListener {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragContainer, CarrinhoFragment())
+                .commit()
+        }
+
+        mostrarEsconderBotaoCarrinho(false, false)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -108,7 +127,16 @@ class MainActivity : AppCompatActivity() {
                 .beginTransaction()
                 .replace(R.id.fragContainer, ListaProdutosFragment())
                 .commit()
-        } else {
+        }
+
+        else if (currentFrag is CarrinhoFragment) {
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragContainer, ListaProdutosFragment())
+                .commit()
+        }
+
+        else {
             super.onBackPressed()
         }
     }

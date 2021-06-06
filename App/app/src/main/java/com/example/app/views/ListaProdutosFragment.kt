@@ -6,6 +6,7 @@ import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
+import com.example.app.MainActivity
 import com.example.app.R
 import com.example.app.configs.buildServiceProduto
 import com.example.app.databinding.CardProdutoBinding
@@ -21,9 +22,11 @@ import retrofit2.Response
 
 class ListaProdutosFragment : Fragment() {
     lateinit var binding: FragmentListaProdutosViewBinding
+    lateinit var activity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): FrameLayout {
         binding = FragmentListaProdutosViewBinding.inflate(inflater)
+        activity = getActivity() as MainActivity
 
         binding.inputNomeProduto.setOnKeyListener { _, key, event ->
             if (key == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
@@ -75,6 +78,7 @@ class ListaProdutosFragment : Fragment() {
         super.onResume()
         val categoria = this.arguments?.getString("categoria")
 
+        activity.mostrarEsconderBotaoCarrinho(false, false)
         atualizarProdutos(categoria)
         activity?.title = getString(R.string.tela_lista_produtos)
     }
