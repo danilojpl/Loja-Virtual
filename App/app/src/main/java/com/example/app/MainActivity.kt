@@ -11,6 +11,10 @@ import com.example.app.views.CategoriasFragment
 import com.example.app.views.ListaProdutosFragment
 import com.example.app.views.ProdutoFragment
 import com.example.app.views.SobreFragment
+import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import kotlinx.android.synthetic.main.menu_cabecalho.view.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -33,6 +37,10 @@ class MainActivity : AppCompatActivity() {
             }.start()
         }
     }
+    fun getCurrentUser(): FirebaseUser? {
+        return FirebaseAuth .getInstance().currentUser
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +76,19 @@ class MainActivity : AppCompatActivity() {
 
             true
         }
+        val header = binding.navigationView.getHeaderView(0)
+        val button = header.imageLogin
+        button.setOnClickListener {
+            if (getCurrentUser() == null){
+                val providers = arrayListOf(AuthUI.IdpConfig.EmailBuilder().build())
 
+                val intent = AuthUI.getInstance()
+                    .createSignInIntentBuilder()
+                    .setAvailableProviders(providers)
+                    .build()
+               startActivity(intent)
+            }
+        }
         mostrarEsconderBotaoCarrinho()
     }
 
