@@ -21,4 +21,7 @@
     <string name="tela_carrinho">Meu Carrinho</string>
     <string name="carrinho_vazio">Não há items no carrinho</string>
     <string name="sem_estoque">Não há mais itens em estoque</string>
+    <string name="finalizar_compra">Finalizar Compra</string>
+    <string name="compra_finalizada">Compra realizada com sucesso</string>
+    <string name="erro_finalizar_compra">Erro ao tentar efetuar compra</string>
 </resources>

@@ -19,4 +19,7 @@
     <string name="tela_carrinho">My Cart</string>
     <string name="carrinho_vazio">There\'s no items on your cart</string>
     <string name="sem_estoque">Out of stock</string>
+    <string name="finalizar_compra">Checkout</string>
+    <string name="compra_finalizada">Purchase made successfully</string>
+    <string name="erro_finalizar_compra">Error when trying to make the purchase</string>
 </resources>

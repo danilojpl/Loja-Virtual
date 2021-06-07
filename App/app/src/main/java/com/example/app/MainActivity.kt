@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     fun getUsuario(): FirebaseUser? {
-        return FirebaseAuth .getInstance().currentUser
+        return FirebaseAuth.getInstance().currentUser
     }
 
     fun loginUsuario(){

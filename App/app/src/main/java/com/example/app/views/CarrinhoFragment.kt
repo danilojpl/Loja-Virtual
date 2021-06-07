@@ -11,15 +11,20 @@ import androidx.fragment.app.Fragment
 import com.example.app.MainActivity
 import com.example.app.R
 import com.example.app.configs.buildCarrinhoDB
+import com.example.app.configs.buildServiceCompra
 import com.example.app.configs.buildServiceProduto
 import com.example.app.databinding.CardProdutoCarrinhoBinding
 import com.example.app.databinding.FragmentCarrinhoBinding
+import com.example.app.models.CompraModel
 import com.example.app.models.ProdutoCarrinhoModel
+import com.example.app.models.ProdutoCompraModel
 import com.example.app.models.ProdutoModel
+import com.example.app.types.FirebasePostResponseType
 import com.example.app.types.ListaProdutoType
 import com.example.app.utils.converDoubleToPrice
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.card_produto_carrinho.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -35,6 +40,11 @@ class CarrinhoFragment : Fragment() {
         activity = getActivity() as MainActivity
 
         atualizarCarrinho()
+
+        binding.botaoFinalizarCompra.setOnClickListener {
+            finalizarCompra()
+        }
+
         return binding.root
     }
 
@@ -42,6 +52,78 @@ class CarrinhoFragment : Fragment() {
         super.onResume()
         activity?.title = getString(R.string.tela_carrinho)
         activity.mostrarEsconderBotaoCarrinho(false, true)
+    }
+
+    fun acaoBotoes (ativado: Boolean) {
+        binding.botaoFinalizarCompra.isClickable = ativado
+        for (view in binding.container.allViews) {
+            if (view.id == R.layout.card_produto_carrinho) {
+                view.botao_decrescimo.isClickable = ativado
+                view.botao_incremento.isClickable = ativado
+            }
+        }
+    }
+
+    fun finalizarCompra () {
+        val user = activity.getUsuario()
+
+        if (user == null){
+            activity.loginUsuario()
+        }
+
+        else{
+            binding.loading.visibility = View.VISIBLE
+            acaoBotoes(false)
+
+            Thread {
+                val carrinhoDB = buildCarrinhoDB(activity)
+                val produtosCarrinho = carrinhoDB.listarTodos()
+                val produtosCompra = produtosCarrinho.map {
+                    val quantidade = it.quantidade as Int
+                    ProdutoCompraModel(it.id_produto, quantidade.toString())
+                }
+                val compra = CompraModel(user.uid, produtosCompra)
+
+                activity.runOnUiThread {
+                    val service = buildServiceCompra()
+                    val call = service.efetivarCompra(compra)
+
+                    val callback = object: Callback<FirebasePostResponseType> {
+                        override fun onResponse(call: Call<FirebasePostResponseType>, response: Response<FirebasePostResponseType>) {
+                            if (response.isSuccessful) {
+                                Snackbar.make(binding.container, R.string.compra_finalizada, Snackbar.LENGTH_LONG).show()
+
+                                Thread {
+                                    produtosCarrinho.forEach {
+                                        carrinhoDB.remover(it)
+                                    }
+
+                                    activity.runOnUiThread {
+                                        activity.supportFragmentManager
+                                            .beginTransaction()
+                                            .replace(R.id.fragContainer, ListaProdutosFragment())
+                                            .commit()
+                                    }
+                                }.start()
+                            } else {
+                                Snackbar.make(binding.container, R.string.erro_finalizar_compra, Snackbar.LENGTH_LONG).show()
+                                binding.loading.visibility = View.INVISIBLE
+                                acaoBotoes(true)
+                            }
+                        }
+
+                        override fun onFailure(call: Call<FirebasePostResponseType>, t: Throwable) {
+                            Snackbar.make(binding.container, R.string.erro_internet, Snackbar.LENGTH_LONG).show()
+                            binding.loading.visibility = View.INVISIBLE
+                            Log.e("hmm", t.toString())
+                            acaoBotoes(true)
+                        }
+                    }
+
+                    call.enqueue(callback)
+                }
+            }.start()
+        }
     }
 
     fun bindCard (produtoCarrinho: ProdutoCarrinhoModel, produto: ProdutoModel, card: CardProdutoCarrinhoBinding) {
@@ -94,6 +176,7 @@ class CarrinhoFragment : Fragment() {
                 if (binding.container.childCount == 0) {
                     binding.naoHaItens.visibility = View.VISIBLE
                     binding.totalCompra.visibility = View.INVISIBLE
+                    binding.botaoFinalizarCompra.visibility = View.INVISIBLE
                 }
             }
         }.start()
@@ -130,12 +213,14 @@ class CarrinhoFragment : Fragment() {
         binding.loading.visibility = View.INVISIBLE
         binding.totalCompra.text = converDoubleToPrice(valorTotal)
         binding.totalCompra.visibility = View.VISIBLE
+        binding.botaoFinalizarCompra.visibility = View.VISIBLE
     }
 
     fun atualizarCarrinho() {
         binding.loading.visibility = View.VISIBLE
         binding.naoHaItens.visibility = View.INVISIBLE
         binding.totalCompra.visibility = View.INVISIBLE
+        binding.botaoFinalizarCompra.visibility = View.INVISIBLE
         binding.container.removeAllViews()
 
         val carrinhoDB = buildCarrinhoDB(activity)

@@ -54,14 +54,30 @@
                 android:id="@+id/total_compra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/black_faded"
+                android:backgroundTint="@color/black_faded"
                 android:fontFamily="@font/montserrat_bold"
-                android:gravity="right"
+                android:gravity="center|center_horizontal|center_vertical"
                 android:paddingLeft="8dp"
+                android:paddingTop="4dp"
                 android:paddingRight="8dp"
-                android:paddingBottom="8dp"
+                android:paddingBottom="4dp"
                 android:text="R$ 1000,00"
                 android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:textSize="28sp" />
+
+            <Button
+                android:id="@+id/botao_finalizar_compra"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:backgroundTint="@color/teal_200"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/finalizar_compra"
+                android:textColor="@color/white"
+                app:cornerRadius="0dp" />
         </LinearLayout>
 
     </LinearLayout>

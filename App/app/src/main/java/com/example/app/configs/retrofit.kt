@@ -1,5 +1,6 @@
 package com.example.app.configs
 
+import com.example.app.services.CompraService
 import com.example.app.services.ProdutoService
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,4 +15,8 @@ fun buildRetrofit ():Retrofit {
 
 fun buildServiceProduto (): ProdutoService {
     return buildRetrofit().create(ProdutoService::class.java)
+}
+
+fun buildServiceCompra (): CompraService {
+    return buildRetrofit().create(CompraService::class.java)
 }
