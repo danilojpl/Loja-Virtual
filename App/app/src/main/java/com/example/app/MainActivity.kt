@@ -3,6 +3,7 @@ package com.example.app
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.widget.PopupMenu
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.app.configs.buildCarrinhoDB
@@ -40,10 +41,35 @@ class MainActivity : AppCompatActivity() {
             }.start()
         }
     }
-    fun getCurrentUser(): FirebaseUser? {
+    fun getUsuario(): FirebaseUser? {
         return FirebaseAuth .getInstance().currentUser
     }
 
+    fun loginUsuario(){
+        val providers = arrayListOf(AuthUI.IdpConfig.EmailBuilder().build())
+
+        val intent = AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(providers)
+            .build()
+        startActivity(intent)
+    }
+
+    fun popUp(v: View, header:View){
+        val popup = PopupMenu(this, v)
+        popup.inflate(R.menu.popup)
+        popup.setOnMenuItemClickListener(PopupMenu.OnMenuItemClickListener { item: MenuItem? ->
+            when(item?.itemId){
+                R.id.logOut -> {
+                    header.textLogin.text = ""
+                    FirebaseAuth.getInstance().signOut()
+                }
+            }
+            true
+        })
+        popup.show()
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,19 +112,19 @@ class MainActivity : AppCompatActivity() {
 
             true
         }
+
         val header = binding.navigationView.getHeaderView(0)
         val button = header.imageLogin
-        button.setOnClickListener {
-            if (getCurrentUser() == null){
-                val providers = arrayListOf(AuthUI.IdpConfig.EmailBuilder().build())
 
-                val intent = AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setAvailableProviders(providers)
-                    .build()
-               startActivity(intent)
+        button.setOnClickListener {
+            if (getUsuario() == null){
+               loginUsuario()
+            }
+            else{
+                popUp(button,header)
             }
         }
+
         mostrarEsconderBotaoCarrinho()
 
         binding.botaoCarrinho.setOnClickListener {
@@ -110,7 +136,11 @@ class MainActivity : AppCompatActivity() {
 
         mostrarEsconderBotaoCarrinho(false, false)
     }
-
+    override fun onResume() {
+        super.onResume()
+        val header = binding.navigationView.getHeaderView(0)
+        header.textLogin.text = FirebaseAuth.getInstance().currentUser?.email
+    }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         toggle?.let {
             return it.onOptionsItemSelected(item)
