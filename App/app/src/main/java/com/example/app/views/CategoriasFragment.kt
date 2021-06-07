@@ -30,6 +30,7 @@ class CategoriasFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         configurarFirebase()
+        activity?.title = getString(R.string.tela_categorias)
         adapter?.let {
             adapter.startListening()
         }

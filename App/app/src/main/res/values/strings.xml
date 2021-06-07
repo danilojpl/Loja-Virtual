@@ -24,4 +24,9 @@
     <string name="finalizar_compra">Finalizar Compra</string>
     <string name="compra_finalizada">Compra realizada com sucesso</string>
     <string name="erro_finalizar_compra">Erro ao tentar efetuar compra</string>
+    <string name="tela_categorias">Categorias</string>
+    <string name="tela_compras">Minhas Compras</string>
+    <string name="sem_compras">Você ainda não realizou nenhuma compra</string>
+    <string name="logar_para_ver_compras">Você precisa logar para ver as compras realizadas</string>
+    <string name="erro_lista_compras">Erro ao tentar carregar a lista de compras</string>
 </resources>

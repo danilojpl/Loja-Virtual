@@ -3,12 +3,18 @@
 
     <group >
         <item
+            android:id="@+id/item_categorias"
+            android:title="@string/tela_categorias" />
+        <item
             android:id="@+id/item_produtos"
             android:title="@string/menu_item_produtos"
             app:showAsAction="never" />
         <item
             android:id="@+id/item_carrinho"
             android:title="@string/tela_carrinho" />
+        <item
+            android:id="@+id/item_compras"
+            android:title="@string/tela_compras" />
         <item
             android:id="@+id/item_sobre"
             android:title="@string/tela_sobre" />
