@@ -25,12 +25,14 @@ class ListaProdutosFragment : Fragment() {
     lateinit var activity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): FrameLayout {
+        val categoria = this.arguments?.getString("categoria")
+
         binding = FragmentListaProdutosViewBinding.inflate(inflater)
         activity = getActivity() as MainActivity
 
         binding.inputNomeProduto.setOnKeyListener { _, key, event ->
             if (key == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP) {
-                pesquisarProdutos(binding.inputNomeProduto.text.toString())
+                pesquisarProdutos(binding.inputNomeProduto.text.toString(),categoria)
 
                 val keyboard = activity?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
                 keyboard.hideSoftInputFromWindow(view?.windowToken, 0)
@@ -49,14 +51,14 @@ class ListaProdutosFragment : Fragment() {
         return binding.root
     }
 
-    fun pesquisarProdutos (nome: String) {
+    fun pesquisarProdutos (nome: String, categoria: String? = null) {
         val service = buildServiceProduto()
         val call = service.filterByName("\"${nome}\"", "\"${nome}\\uf8ff\"")
 
         val callback = object: Callback<ListaProdutoType> {
             override fun onResponse(call: Call<ListaProdutoType>, response: Response<ListaProdutoType>) {
                 if (response.isSuccessful) {
-                    atualizarListaUI(response.body(), null)
+                    atualizarListaUI(response.body(), categoria)
                 } else {
                     Snackbar.make(binding.container, R.string.erro_lista_produtos, Snackbar.LENGTH_LONG).show()
                     binding.loading.visibility = View.INVISIBLE
